@@ -4,44 +4,70 @@ import TheWelcome from './components/TheWelcome.vue'
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+  <DogsHeader />
+  <h1>Listado de razas y subrazas encontrados en la bd</h1>
+  <button @click="toggleSortOrder">Cambiar orden</button>
+  <div class="container">
+    <div>
+      <p>Total de razas: {{ totalBreeds }} </p>
     </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+    <div>
+      <p>Total de subrazas: {{ totalSubBreeds }} </p>
+    </div>
+  </div>
+  <ul>
+    <li v-for="(subBreeds, breed) in sortedBreeds" :key="breed">
+      {{ breed }}
+      <span v-if="subBreeds.length > 0">
+        subrazas: {{ subBreeds.join(', ') }}
+      </span>
+    </li>
+  </ul>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-}
+<script>
+import axios from 'axios'
+import './assets/css/dogstyle.css'
+import DogsHeader from './components/DogsHeader.vue'
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+export default {
+  data() {
+    return {
+      breeds: {},
+      isAscending: true
+    }
+  },
+  computed: {
+    totalBreeds() {
+      return Object.keys(this.breeds).length
+    },
+    totalSubBreeds() {
+      return Object.values(this.breeds).reduce((total, subBreeds) => total + subBreeds.length, 0)
+    },
+    sortedBreeds() {
+      const breedsArray = Object.entries(this.breeds)
+      const sortedBreedsArray = breedsArray.sort((a, b) => {
+        const breedA = a[0].toUpperCase()
+        const breedB = b[0].toUpperCase()
+        if (this.isAscending) {
+          return breedA < breedB ? -1 : breedA > breedB ? 1 : 0
+        } else {
+          return breedA > breedB ? -1 : breedA < breedB ? 1 : 0
+        }
+      })
+      return Object.fromEntries(sortedBreedsArray)
+    }
+  },
+  methods: {
+    toggleSortOrder() {
+      this.isAscending = !this.isAscending
+    }
+  },
+  async created() {
+    const response = await axios.get('https://dog.ceo/api/breeds/list/all')
+    this.breeds = response.data.message
   }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
 }
-</style>
+</script>
+
+./components/DogsHeader.vue
