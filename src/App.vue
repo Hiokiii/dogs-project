@@ -16,16 +16,25 @@ import TheWelcome from './components/TheWelcome.vue'
       </div>
     </div>
   </div>
-  <div class="container2">
-    <button @click="toggleSortOrder">Cambiar orden</button>
-    <ul>
-      <li v-for="(subBreeds, breed) in sortedBreeds" :key="breed">
-        {{ breed }}
-        <span v-if="subBreeds.length > 0">
-          subrazas: {{ subBreeds.join(', ') }}
-        </span>
-      </li>
-    </ul>
+  <div class="container2" v-if="!isLoading">
+  <button @click="toggleSortOrder">Cambiar orden</button>
+    <div class="list-container">
+      <ul>
+        <li v-for="(subBreeds, breed) in sortedBreeds" :key="breed">
+          {{ breed }}
+        </li>
+      </ul>
+      <ul>
+        <ul v-for="(subBreeds, breed) in breedsWithSubBreeds" :key="breed">
+          <li v-for="subBreed in subBreeds" :key="subBreed">
+            {{ breed }} - {{ subBreed }}
+          </li>
+        </ul>
+      </ul>
+    </div> 
+  </div>
+  <div v-else>
+    Cargando...
   </div>
   <div>
     <select v-model="currentBreed">
@@ -34,21 +43,27 @@ import TheWelcome from './components/TheWelcome.vue'
     </select>
   </div>
   <div class="container3">
-    <div v-for="(subBreeds, breed) in images" :key="breed">
-      <div v-if="currentBreed === breed">
-        <h2>{{ breed }}</h2>
-        <div v-for="(images, subBreed) in subBreeds" :key="subBreed">
-          <h3 v-if="subBreed !== 'main'">{{ breed }} - {{ subBreed }}</h3>
-          <div class="grid-container">
-            <div class="grid-item" v-for="(image, index) in images" :key="index">
-              <img :src="image" alt="" />
-              <p>{{ breed }} {{ subBreed !== 'main' ? '- ' + subBreed : '' }}</p>
-            </div>
+  <div v-for="(subBreeds, breed) in images" :key="breed">
+    <div v-if="currentBreed === breed">
+      <h2>{{ breed }}</h2>
+      <div v-for="(images, subBreed) in subBreeds" :key="subBreed">
+        <h3 v-if="subBreed !== 'main'">{{ breed }} - {{ subBreed }}</h3>
+        <div class="grid-container">
+          <div class="grid-item" v-for="(image, index) in paginatedImages" :key="index">
+            <img :src="image" alt="" />
+            <p>{{ breed }} {{ subBreed !== 'main' ? '- ' + subBreed : '' }}</p>
           </div>
         </div>
       </div>
+      <div class="pagination">
+        <button @click="previousPage" :disabled="currentPage === 1">Anterior</button>
+        <span>{{ currentPage }}</span>
+        <button @click="nextPage" :disabled="currentPage === totalPages">Siguiente</button>
+      </div>
     </div>
   </div>
+</div>
+
 </template>
 
 <script>
@@ -62,7 +77,11 @@ export default {
       breeds: {},
       images: {},
       isAscending: true,
-      currentBreed: null
+      currentBreed: "",
+      currentSubBreed: "",
+      isLoading: true,
+      currentPage: 1, 
+      imagesPerPage: 12
     }
   },
   computed: {
@@ -84,6 +103,25 @@ export default {
         }
       })
       return Object.fromEntries(sortedBreedsArray)
+    },
+    breedsWithSubBreeds() {
+      return Object.entries(this.breeds)
+        .filter(([breed, subBreeds]) => subBreeds.length > 0)
+        .reduce((obj, [breed, subBreeds]) => {
+          obj[breed] = subBreeds;
+          return obj;
+        }, {});
+    },
+    paginatedImages() {
+      const start = (this.currentPage - 1) * this.imagesPerPage;
+      const end = start + this.imagesPerPage;
+      const breedImages = this.images[this.currentBreed] || {};
+      const subBreedImages = breedImages[this.currentSubBreed] || [];
+      return subBreedImages.slice(start, end);
+    },
+    totalPages() {
+      const totalImages = (this.images[this.currentBreed]?.[this.currentSubBreed] || []).length;
+      return Math.ceil(totalImages / this.imagesPerPage);
     }
   },
   methods: {
@@ -102,7 +140,7 @@ export default {
       this.images[breed][subBreed || 'main'] = response.data.message
     },
     async changeBreed() {
-
+      this.currentPage = 1;
       const breed = this.currentBreed;
 
       if (this.breeds[breed].length > 0) {
@@ -111,6 +149,17 @@ export default {
         }
       } else {
         await this.fetchImages(breed)
+      }
+      this.currentSubBreed = this.breeds[breed][0] || 'main';
+    },
+    nextPage() {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage++;
+      }
+    },
+    previousPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
       }
     }
   },
@@ -122,7 +171,6 @@ export default {
   async created() {
     const response = await axios.get('https://dog.ceo/api/breeds/list/all')
     this.breeds = response.data.message
-
     for (const breed in this.breeds) {
       if (this.breeds[breed].length > 0) {
         for (const subBreed of this.breeds[breed]) {
@@ -132,6 +180,7 @@ export default {
         this.fetchImages(breed)
       }
     }
+    this.isLoading = false
   }
  
 }
