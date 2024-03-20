@@ -29,7 +29,7 @@ import TheWelcome from './components/TheWelcome.vue'
   </div>
   <div>
     <select v-model="currentBreed">
-      <option disabled value="">Please select a breed</option>
+      <option disabled value="">Selecciona una raza</option>
       <option v-for="breed in Object.keys(sortedBreeds)" :key="breed" :value="breed">{{ breed }}</option>
     </select>
   </div>
@@ -104,7 +104,7 @@ export default {
     async changeBreed() {
 
       const breed = this.currentBreed;
-      
+
       if (this.breeds[breed].length > 0) {
         for (const subBreed of this.breeds[breed]) {
           await this.fetchImages(breed, subBreed)
