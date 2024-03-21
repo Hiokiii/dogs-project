@@ -43,27 +43,21 @@ import TheWelcome from './components/TheWelcome.vue'
     </select>
   </div>
   <div class="container3">
-  <div v-for="(subBreeds, breed) in images" :key="breed">
-    <div v-if="currentBreed === breed">
-      <h2>{{ breed }}</h2>
-      <div v-for="(images, subBreed) in subBreeds" :key="subBreed">
-        <h3 v-if="subBreed !== 'main'">{{ breed }} - {{ subBreed }}</h3>
+    <div v-if="currentBreed">
+        <h2>{{ currentBreed }}</h2>
         <div class="grid-container">
-          <div class="grid-item" v-for="(image, index) in paginatedImages" :key="index">
-            <img :src="image" alt="" />
-            <p>{{ breed }} {{ subBreed !== 'main' ? '- ' + subBreed : '' }}</p>
+          <div class="grid-item" v-for="(imageInfo, index) in paginatedImages" :key="index">
+            <img :src="imageInfo.url" alt="" />
+            <p>{{ currentBreed }} {{ imageInfo.subBreed ? '- ' + imageInfo.subBreed : '' }}</p>
           </div>
         </div>
-      </div>
-      <div class="pagination">
-        <button @click="previousPage" :disabled="currentPage === 1">Anterior</button>
-        <span>{{ currentPage }}</span>
-        <button @click="nextPage" :disabled="currentPage === totalPages">Siguiente</button>
-      </div>
+        <div class="pagination">
+          <button @click="previousPage" :disabled="currentPage === 1">Anterior</button>
+          <span>{{ currentPage }}</span>
+          <button @click="nextPage" :disabled="currentPage === totalPages">Siguiente</button>
+        </div>
     </div>
   </div>
-</div>
-
 </template>
 
 <script>
@@ -112,16 +106,23 @@ export default {
           return obj;
         }, {});
     },
+    allImages() {
+      if (!this.images[this.currentBreed]) return [];
+      let allImages = [];
+      for (let subBreed in this.images[this.currentBreed]) {
+        this.images[this.currentBreed][subBreed].forEach(image => {
+          allImages.push({ url: image, subBreed: subBreed !== 'main' ? subBreed : '' });
+        });
+      }
+      return allImages;
+    },
     paginatedImages() {
       const start = (this.currentPage - 1) * this.imagesPerPage;
       const end = start + this.imagesPerPage;
-      const breedImages = this.images[this.currentBreed] || {};
-      const subBreedImages = breedImages[this.currentSubBreed] || [];
-      return subBreedImages.slice(start, end);
+      return this.allImages.slice(start, end);
     },
     totalPages() {
-      const totalImages = (this.images[this.currentBreed]?.[this.currentSubBreed] || []).length;
-      return Math.ceil(totalImages / this.imagesPerPage);
+      return Math.ceil(this.allImages.length / this.imagesPerPage);
     }
   },
   methods: {
