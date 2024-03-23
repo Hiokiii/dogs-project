@@ -1,4 +1,3 @@
-<!-- RandomDog.vue -->
 <template>
     <div>
       <button @click="getRandomDog">Obtener raza al azar</button>

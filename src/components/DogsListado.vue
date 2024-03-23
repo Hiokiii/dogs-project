@@ -34,6 +34,7 @@
       return {
         breeds: {},
         images: {},
+        isAscending: true,
         currentBreed: "",
         currentSubBreed: "",
         currentPage: 1, 
