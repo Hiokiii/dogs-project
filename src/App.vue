@@ -10,5 +10,4 @@ import TheWelcome from './components/TheWelcome.vue'
 
 <script>
 import DogsHeader from './components/DogsHeader.vue'
-import './assets/css/dogstyle.css'
 </script>
