@@ -25,13 +25,13 @@
     <div class="list-container">
       <ul>
         <li v-for="(subBreeds, breed) in sortedBreeds" :key="breed">
-          {{ breed }}
+          <router-link :to="`/dogs/${breed}`">{{ breed }}</router-link>
         </li>
       </ul>
-      <ul>
+      <ul class="subbreeds-list">
         <ul v-for="(subBreeds, breed) in sortedSubBreeds" :key="breed">
           <li v-for="subBreed in subBreeds" :key="subBreed">
-            {{ breed }} - {{ subBreed }}
+            <router-link :to="`/dogs/${breed}/${subBreed}`">{{ breed }} - {{ subBreed }}</router-link>
           </li>
         </ul>
       </ul>

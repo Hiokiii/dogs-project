@@ -47,7 +47,6 @@ box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
     flex-direction: column;
     border-radius: 10px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-    max-height: 500px;
     overflow-y: auto;
     margin-left: auto;
     margin-right: auto;
@@ -101,6 +100,19 @@ box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
   .list-container {
     display: flex;
     justify-content: space-between;
+  }
+
+  .list-container li {
+    list-style-type: none;
+  }
+
+  .list-container li a {
+    color: blue;
+    text-decoration: underline;
+  }
+
+  .list-container .subbreeds-list {
+    text-align: right;
   }
 
 body {
