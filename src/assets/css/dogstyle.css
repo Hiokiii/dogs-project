@@ -84,9 +84,9 @@ max-width: calc(40% - 20px);
   padding: 0 25px;
 }
 
-.pagination > button:hover {
-  background-color: rgb(192, 188, 191);
-  color: rgb(255, 255, 255);
+.pagination > button:not(:disabled):hover {
+    background-color: rgb(192, 188, 191);
+    color: rgb(255, 255, 255);
 }
 
 .container3 {

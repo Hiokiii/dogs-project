@@ -1,9 +1,17 @@
 <template>
-    <div>
-      <select v-model="currentBreed">
-        <option disabled value="">Selecciona una raza</option>
-        <option v-for="breed in Object.keys(sortedBreeds)" :key="breed" :value="breed">{{ breed }}</option>
-      </select>
+    <div class="container6">
+        <p>https://dog.ceo/api/breed/</p>
+        <div class="select" v-on:click="toggleSelect">
+            <div class="select__label">{{ currentBreed || 'Selecciona una raza' }}</div>
+            <div class="select__options" v-show="isSelectOpen">
+                <div class="select__option" v-for="breed in Object.keys(breeds)" :key="breed" v-on:click.stop="selectBreed(breed)">{{ breed }}</div>
+            </div>
+            <select v-model="currentBreed">
+                <option disabled value="">Selecciona una raza</option>
+                <option v-for="breed in Object.keys(sortedBreeds)" :key="breed" :value="breed">{{ breed }}</option>
+            </select>
+        </div>
+        <p>/images</p>
     </div>
     <div class="container3">
       <div v-if="currentBreed">
@@ -28,6 +36,7 @@
   <script>
   import axios from 'axios'
   import '@/assets/css/dogstyle.css'
+  import '@/assets/css/dogselection.css'
   
   export default {
     data() {
@@ -38,7 +47,8 @@
         currentBreed: "",
         currentSubBreed: "",
         currentPage: 1, 
-        imagesPerPage: 12
+        imagesPerPage: 12,
+        isSelectOpen: false
       }
     },
     computed: {
@@ -97,6 +107,13 @@
       }
     },
     methods: {
+      toggleSelect() {
+        this.isSelectOpen = !this.isSelectOpen;
+      },
+      selectBreed(breed) {
+          this.currentBreed = breed;
+          this.isSelectOpen = false;
+      },
       async fetchImages(breed, subBreed) {
         let url;
         if (subBreed) {
