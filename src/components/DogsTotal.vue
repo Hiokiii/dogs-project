@@ -1,7 +1,10 @@
 <template>
 
-  <h1>Listado de razas y subrazas encontrados en la bd</h1>
+  <h1>Listado de razas y subrazas encontrados en la BD</h1>
   <div class="wrapper">
+    
+  </div>
+  <div class="container2" v-if="!isLoading">
     <div class="container">
       <div>
         <p>Total de razas: {{ totalBreeds }} </p>
@@ -10,28 +13,28 @@
         <p>Total de subrazas: {{ totalSubBreeds }} </p>
       </div>
     </div>
-  </div>
-  <div class="container2" v-if="!isLoading">
     <div class="button-container">
-      <button @click="toggleSortOrder">
+      <button  class="button-sort" @click="toggleSortOrder">
         <span :style="{ color: isAscending ? 'black' : 'lightgray' }">↑</span>
         <span :style="{ color: isAscending ? 'lightgray' : 'black' }">↓</span>
       </button>
-      <button @click="toggleSubBreedSortOrder">
+      <button class="button-sort" @click="toggleSubBreedSortOrder">
         <span :style="{ color: isSubBreedAscending ? 'black' : 'lightgray' }">↑</span>
         <span :style="{ color: isSubBreedAscending ? 'lightgray' : 'black' }">↓</span>
       </button>
     </div>
     <div class="list-container">
-      <ul>
+      <ul class="breed-list">
+        <h3>Razas</h3>
         <li v-for="(subBreeds, breed) in sortedBreeds" :key="breed">
-          <router-link :to="`/dogs/${breed}`">{{ breed }}</router-link>
+          <router-link :to="`/perros/${breed}`">{{ breed }}</router-link>
         </li>
       </ul>
       <ul class="subbreeds-list">
+        <h3>Subrazas</h3>
         <ul v-for="(subBreeds, breed) in sortedSubBreeds" :key="breed">
           <li v-for="subBreed in subBreeds" :key="subBreed">
-            <router-link :to="`/dogs/${breed}/${subBreed}`">{{ breed }} - {{ subBreed }}</router-link>
+            <router-link :to="`/perros/${breed}/${subBreed}`">{{ breed }} - {{ subBreed }}</router-link>
           </li>
         </ul>
       </ul>

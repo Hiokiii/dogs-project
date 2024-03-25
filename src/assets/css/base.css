@@ -1,3 +1,19 @@
 body {
     background-color: rgb(242,233,228);
 }
+
+#app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+footer {
+    text-align: center;
+    margin-top: auto;
+}
+
+.maffinz-link {
+    text-decoration: underline;
+    color: rgb(105, 74, 81)
+}

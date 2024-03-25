@@ -16,27 +16,30 @@ max-width: calc(40% - 20px);
 }
   
 @media (max-width: 600px) {
-.card {
-    max-width: calc(50% - 20px);
-}
+  .card {
+      max-width: calc(50% - 20px);
+  }
+} 
+
+.container {
+  background: rgb(242, 233, 228);
+  display: flex;
+  flex-direction:row;
+  align-items: center;
+  justify-content:space-between;
+  border-radius: 10px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  line-height: 1.5; 
+  text-align: center; 
+  padding: 5px;
 }
 
-.wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100vw;
+.container div:first-child {
+ margin-left: 40px;
 }
-  
-.container {
-background: rgb(242, 233, 228);
-width: 300px;
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: space-between;
-border-radius: 10px;
-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+
+.container div:last-child {
+ margin-right: 40px;
 }
 
 .container2 {
@@ -52,18 +55,38 @@ box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
     margin-right: auto;
 }
 
-.container2 > button {
-    display: block;
-    width: 100%;
-    position: sticky;
-    top: 0;
-}
-
 .container2 > .button-container {
     display: flex;
     justify-content: space-between;
-    position: sticky;
-    top: 0;
+    padding-top: 10px;
+}
+
+.button-sort{
+  border: 2px solid rgb(154, 140, 152);
+  border-radius: 8px;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 0 25px;
+}
+
+.button-sort:hover {
+  background-color: rgb(192, 188, 191);
+  color: rgb(255, 255, 255);
+}
+
+.pagination > button {
+  border: 2px solid rgb(154, 140, 152);
+  border-radius: 8px;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 0 25px;
+}
+
+.pagination > button:hover {
+  background-color: rgb(192, 188, 191);
+  color: rgb(255, 255, 255);
 }
 
 .container3 {
@@ -74,50 +97,54 @@ box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(24%, 1fr));
     gap: 10px;
-  }
+}
   
-  .grid-item {
-    border: 1px solid #ccc;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center
-  }
+.grid-item {
+  border: 1px solid #ccc;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center
+}
 
-  .grid-item img {
-    max-width: 100%;
-    height: 250px;
-    object-fit: cover;
-    border-radius: 5px;
-  }
+.grid-item img {
+  max-width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 5px;
+}
 
-  .breeds-container {
-    display: flex;
-    justify-content: space-between;
-  }
+.breeds-container {
+  display: flex;
+  justify-content: space-between;
+}
 
-  .list-container {
-    display: flex;
-    justify-content: space-between;
-  }
+.list-container {
+  display: flex;
+  justify-content: space-between;
+}
 
-  .list-container li {
-    list-style-type: none;
-  }
+.breed-list {
+  padding-left: 0;
+}
 
-  .list-container li a {
-    color: rgb(74, 78, 105);
-    text-decoration: underline;
-  }
+.list-container li {
+  list-style-type: none;
+}
 
-  .list-container .subbreeds-list {
-    text-align: right;
-  }
+.list-container li a {
+  color: rgb(74, 78, 105);
+  text-decoration: underline;
+}
+
+.list-container .subbreeds-list {
+  text-align: right;
+}
 
 body {
-    font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI';
-  }
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI';
+}
 
 
 
