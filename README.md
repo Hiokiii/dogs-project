@@ -29,6 +29,7 @@ npm run test:unit:dev # o `npm run test:unit` para pruebas sin cabeza
 ```sh
 npm run test:e2e:dev
 ```
+ARCHIVO PARA TESTEAR : dogs.cy.js
 
 Esto ejecuta las pruebas de extremo a extremo contra el servidor de desarrollo de Vite. 
 Es mucho más rápido que la compilación de producción.
