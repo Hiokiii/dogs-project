@@ -29,7 +29,7 @@ max-width: calc(40% - 20px);
 }
   
 .container {
-background: #fff;
+background: rgb(242, 233, 228);
 width: 300px;
 display: flex;
 flex-direction: column;
@@ -42,7 +42,7 @@ box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 .container2 {
     width: 90%;
     padding: 20px;
-    background: #fff;
+    background: rgb(201, 173, 167);
     display: flex;
     flex-direction: column;
     border-radius: 10px;
@@ -107,7 +107,7 @@ box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
   }
 
   .list-container li a {
-    color: blue;
+    color: rgb(74, 78, 105);
     text-decoration: underline;
   }
 

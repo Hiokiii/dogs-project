@@ -6,8 +6,12 @@ import TheWelcome from './components/TheWelcome.vue'
 <template>
   <DogsHeader />
   <router-view />
+  <DogsFooter />
 </template>
 
 <script>
 import DogsHeader from './components/DogsHeader.vue'
+import DogsFooter from './components/DogsFooter.vue'
 </script>
+
+<style src="@/assets/css/base.css"></style>
